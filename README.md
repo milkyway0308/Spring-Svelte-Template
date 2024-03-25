@@ -1,4 +1,5 @@
-# Spring-Svelete-Template
+# Spring-Svelete-Template 
+![Java CI with Gradle](https://github.com/milkyway0308/Spring-Svelte-Template/actions/workflows/gradle.yml/badge.svg)
 
 This is a template project for Spring Boot and Svelte. It is a simple project that can be used as a starting point for a
 full stack application using Spring Boot and Svelte.
