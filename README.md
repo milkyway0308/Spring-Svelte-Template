@@ -54,7 +54,8 @@ Here are the versions of the frameworks used in the template:
 | Java        | 17      |
 | Kotlin      | 1.9.22  |
 | Gradle      | 8.4     |
-| Svelte      | @latest |
+| Svelte      | 4.2.12  |
+| Vite        | 5.2.0   |
 
 ## License
 
