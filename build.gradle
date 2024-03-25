@@ -68,8 +68,11 @@ tasks.register('compileSvelte') {
             println "NPM init is not detected. Installing Svelte via npm.."
             exec {
                 workingDir "${rootDir}/frontend/"
-                executable "cmd.exe"
-                args "/C npm install"
+                if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+                    commandLine 'cmd', '/c', 'npm install'
+                } else {
+                    commandLine 'npm', 'install'
+                }
             }
             file.createNewFile()
             println "Svelte install complete."
@@ -77,8 +80,11 @@ tasks.register('compileSvelte') {
         println "Starting Svelte build via npm.."
         exec {
             workingDir "${rootDir}/frontend/"
-            executable "cmd.exe"
-            args "/C npm run build"
+            if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+                commandLine 'cmd', '/c', 'npm run build'
+            } else {
+                commandLine 'npm', 'run', 'build'
+            }
         }
         println "Svelte compile complete."
     }
@@ -93,8 +99,11 @@ tasks.register('runSvelte') {
             println "NPM init is not detected. Installing Svelte via npm.."
             exec {
                 workingDir "${rootDir}/frontend/"
-                executable "cmd.exe"
-                args "/C npm install"
+                if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+                    commandLine 'cmd', '/c', 'npm install'
+                } else {
+                    commandLine 'npm', 'install'
+                }
             }
             file.createNewFile()
             println "Svelte install complete."
@@ -102,8 +111,11 @@ tasks.register('runSvelte') {
         println "Running Svelte development runtime via npm.."
         exec {
             workingDir "${rootDir}/frontend/"
-            executable "cmd.exe"
-            args "/C npm run dev -- --open"
+            if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+                commandLine 'cmd', '/c', 'npm run dev -- --open'
+            } else {
+                commandLine 'npm', 'run', 'dev', '--', '--open'
+            }
         }
     }
 }
