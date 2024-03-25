@@ -35,7 +35,7 @@ Here's the list of properties that can be configured:
 | coroutines_version  | The version of Kotlin Coroutines to use. | 1.7.3          | 
 | target_java_version | The version of Java to target.           | 17             | 
 | group_name          | The group name of the project.           | com.example    |
-| main_class          | The main class of the project.           | HelloWorld     |
+| main_class          | The main class of the project.           | HelloWorldKt   |
 | version             | The version of the project.              | 0.0.1          |
 | server_port         | The port the server will run on.         | 8080           |
 | database_url        | The URL of the database.                 | localhost:3306 |

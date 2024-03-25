@@ -131,12 +131,8 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-bootJar {
-    manifest {
-        attributes(
-                'Main-Class': mainClassName
-        )
-    }
+springBoot {
+    mainClass.set(mainClassName)
 }
 
 processResources {
