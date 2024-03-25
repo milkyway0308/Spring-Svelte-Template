@@ -41,8 +41,7 @@ Here's the list of properties that can be configured:
 | database_url        | The URL of the database.                 | localhost:3306 |
 | database_table      | The name of the database table.          | test           |
 | database_user       | The username of the database.            | root           |
-| database_user       | The username of the database.            | root           |
-| database_password   | The password of the database.            | password       |
+| database_password   | The password of the database.            | root           |
 
 ## Template framework versions
 
