@@ -1,0 +1,136 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    id "org.springframework.boot" version "3.2.0"
+    id "io.spring.dependency-management" version "1.1.0"
+    id "io.ktor.plugin" version "2.3.9"
+    id "org.jetbrains.kotlin.jvm" version "${kotlin_version}"
+    id "org.jetbrains.kotlin.plugin.spring" version "${kotlin_version}"
+    id "org.jetbrains.kotlin.plugin.serialization" version "${kotlin_version}"
+}
+
+// =========================================================
+//                  Environment Setup
+// =========================================================
+group = group_name
+mainClassName = "${group_name}.${main_class}"
+
+// =========================================================
+//                Dependency / Repositories
+// =========================================================
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // =========================================================
+    //                     Spring Boot
+    // =========================================================
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-web") {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+    implementation("org.springframework.boot:spring-boot-starter-jetty")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf:3.1.0")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+
+
+    // =========================================================
+    //                        Kotlin
+    // =========================================================
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${coroutines_version}")
+
+
+    // =========================================================
+    //                      Third Party
+    // =========================================================
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.3.1")
+}
+
+
+// =========================================================
+//                        Tasks
+// =========================================================
+
+
+tasks.register('compileSvelte') {
+    group = "svelte"
+    doLast {
+        File file = new File(".svlete-check")
+        if (!file.exists()) {
+            println "NPM init is not detected. Installing Svelte via npm.."
+            exec {
+                workingDir "${rootDir}/frontend/"
+                executable "cmd.exe"
+                args "/C npm install"
+            }
+            file.createNewFile()
+            println "Svelte install complete."
+        }
+        println "Starting Svelte build via npm.."
+        exec {
+            workingDir "${rootDir}/frontend/"
+            executable "cmd.exe"
+            args "/C npm run build"
+        }
+        println "Svelte compile complete."
+    }
+}
+
+
+tasks.register('runSvelte') {
+    group = "svelte"
+    doLast {
+        File file = new File(".svlete-check")
+        if (!file.exists()) {
+            println "NPM init is not detected. Installing Svelte via npm.."
+            exec {
+                workingDir "${rootDir}/frontend/"
+                executable "cmd.exe"
+                args "/C npm install"
+            }
+            file.createNewFile()
+            println "Svelte install complete."
+        }
+        println "Running Svelte development runtime via npm.."
+        exec {
+            workingDir "${rootDir}/frontend/"
+            executable "cmd.exe"
+            args "/C npm run dev -- --open"
+        }
+    }
+}
+
+tasks.withType(KotlinCompile).configureEach {
+    compilerOptions {
+        freeCompilerArgs.add("-Xjsr305=strict")
+        jvmTarget.set(JvmTarget.valueOf("JVM_${target_java_version.replace(".", "_")}"))
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+bootJar {
+    manifest {
+        attributes(
+                'Main-Class': mainClassName
+        )
+    }
+}
+
+processResources {
+    filesMatching("**/application.yml") {
+        expand(rootProject.properties)
+    }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE;
+    dependsOn(compileSvelte)
+}

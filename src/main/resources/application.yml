@@ -1,0 +1,11 @@
+server:
+  port: ${server_port}
+spring:
+  datasource:
+    url: jdbc:mariadb://${database_url}/${database_table}
+    username: ${database_user}
+    password: ${database_password}
+    driverClassName: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
