@@ -9,9 +9,9 @@ name: Latest build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "spring3+svelte4" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "spring3+svelte4" ]
 
 jobs:
   build:
