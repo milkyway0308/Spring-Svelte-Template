@@ -17,7 +17,7 @@ class SecurityConfiguration {
             }
             .authorizeHttpRequests {
                 it.apply {
-                    anyRequest().permitAll()
+                    requestMatchers("/").permitAll()
                 }
             }
         return http.build()
